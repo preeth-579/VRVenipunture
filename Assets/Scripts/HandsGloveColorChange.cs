@@ -1,4 +1,5 @@
 using UnityEngine;
+using BNG;
 
 public class HandsGloveColorChange : MonoBehaviour
 {
@@ -11,12 +12,29 @@ public class HandsGloveColorChange : MonoBehaviour
 
     private Material[] leftOriginalMats;
     private Material[] rightOriginalMats;
+    
+    [Header("Grabbable Cotton")]
+    public Grabbable CottonGrabbable;
+    
+    [Header("SnapZone Cotton")]
+    public SnapZone CottonSnapZone;
+    
 
     private void Start()
     {
         // Store original materials at start
         leftOriginalMats = leftGlove.materials;
         rightOriginalMats = rightGlove.materials;
+
+        if (CottonGrabbable != null)
+        {
+            CottonGrabbable.enabled = false;
+        }
+
+        if (CottonSnapZone != null)
+        {
+            CottonSnapZone.enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -30,8 +48,17 @@ public class HandsGloveColorChange : MonoBehaviour
                     ChangeToWhite(other);
                 
                     SimulationManager.instance.hasWornGloves =  true;
-                    SimulationManager.instance.UnLockGrabbableObjects();
-                
+
+                    if (CottonGrabbable != null)
+                    {
+                        CottonGrabbable.enabled = true;
+                    }
+
+                    if (CottonSnapZone != null)
+                    {
+                        CottonSnapZone.enabled = true;
+                    }
+                    
                     Debug.Log("Worn Gloves");
                 }
             }
@@ -84,6 +111,15 @@ public class HandsGloveColorChange : MonoBehaviour
         }
         
         SimulationManager.instance.hasWornGloves = false;
-        SimulationManager.instance.LockGrabbableObjects();
+
+        if (CottonGrabbable != null)
+        {
+            CottonGrabbable.enabled = false;
+        }
+
+        if (CottonSnapZone != null)
+        {
+            CottonSnapZone.enabled = false;
+        }
     }
 }

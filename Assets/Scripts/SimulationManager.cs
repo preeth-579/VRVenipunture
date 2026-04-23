@@ -12,8 +12,6 @@ public class SimulationManager : MonoBehaviour
     public GameObject HomeCanvas;
     public GameObject SimulationObjects;
     
-    [Header("Grabbable Objects")] 
-    public GameObject[] grabbableObjects;
 
     [Header("Conditions")] 
     public bool hasWashedHands = false;
@@ -37,8 +35,6 @@ public class SimulationManager : MonoBehaviour
         HomeCanvas.SetActive(true);
         XRRigPlayerController.GetComponent<SmoothLocomotion>().UpdateMovement = false;
         SimulationObjects.SetActive(false);
-        
-        LockGrabbableObjects();
     }
 
     public void StartSimulation()
@@ -46,39 +42,5 @@ public class SimulationManager : MonoBehaviour
         HomeCanvas.SetActive(false);
         XRRigPlayerController.GetComponent<SmoothLocomotion>().UpdateMovement = true;
         SimulationObjects.SetActive(true);
-    }
-
-    public void UnLockGrabbableObjects()
-    {
-        foreach (GameObject grabobj in grabbableObjects)
-        {
-            if (grabobj != null)
-            {
-                Grabbable grabbableComponent = grabobj.GetComponent<Grabbable>();
-
-                if (grabbableComponent != null)
-                {
-                    grabbableComponent.enabled = true;
-                }
-            }
-        }
-        Debug.Log("UnLockGrabbableObjects");
-    }
-
-    public void LockGrabbableObjects()
-    {
-        foreach (GameObject grabobj in grabbableObjects)
-        {
-            if (grabobj != null)
-            {
-                Grabbable grabbableComponent = grabobj.GetComponent<Grabbable>();
-
-                if (grabbableComponent != null)
-                {
-                    grabbableComponent.enabled = false;
-                }
-            }
-        }
-        Debug.Log("LockGrabbableObjects");
     }
 }
